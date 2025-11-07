@@ -25,15 +25,19 @@ async function loadProducts() {
     try {
         const response = await fetch('/api/products/');
         const products = await response.json();
-        
+
         // Update all product select dropdowns
         const productSelects = document.querySelectorAll('.product-select');
         productSelects.forEach(select => {
             select.innerHTML = '<option value="">Select Product</option>';
             products.forEach(product => {
+                // product object uses product_id as the key in mock data
+                const pid = product.product_id || product.productId || product.id;
+                const stock = product.available_stock ?? product.availableStock ?? '';
+                const price = product.price ?? product.unit_price ?? '';
                 select.innerHTML += `
-                    <option value="${product.id}">
-                        ${product.name} - ₹${product.price} (Stock: ${product.available_stock})
+                    <option value="${pid}">
+                        ${product.name} - ₹${price} (Stock: ${stock})
                     </option>`;
             });
         });
@@ -78,7 +82,7 @@ async function generateBill() {
         
         if (productId && quantity) {
             items.push({
-                product_id: parseInt(productId),
+                product_id: productId.toString(),
                 quantity: parseInt(quantity)
             });
         }
@@ -90,6 +94,19 @@ async function generateBill() {
     }
 
     try {
+        // collect denominations BEFORE posting
+        const denominationInputs = document.querySelectorAll('.denomination-item input');
+        let totalPaid = 0;
+        const denominationBreakdown = {};
+        denominationInputs.forEach(input => {
+            const value = parseInt(input.dataset.value);
+            const count = parseInt(input.value) || 0;
+            if (count > 0) {
+                denominationBreakdown[value] = count;
+                totalPaid += value * count;
+            }
+        });
+
         const response = await fetch('/api/bills/', {
             method: 'POST',
             headers: {
@@ -97,26 +114,13 @@ async function generateBill() {
             },
             body: JSON.stringify({
                 customer_email: customerEmail,
-                items: items
+                items: items,
+                denominations: denominationBreakdown
             })
         });
 
         if (response.ok) {
             const bill = await response.json();
-            // Calculate denomination breakdown
-            const denominationInputs = document.querySelectorAll('.denomination-item input');
-            let totalPaid = 0;
-            const denominationBreakdown = {};
-
-            denominationInputs.forEach(input => {
-                const value = parseInt(input.dataset.value);
-                const count = parseInt(input.value);
-                if (count > 0) {
-                    denominationBreakdown[value] = count;
-                    totalPaid += value * count;
-                }
-            });
-
             // Store bill data and denomination breakdown in sessionStorage
             sessionStorage.setItem('currentBill', JSON.stringify(bill));
             sessionStorage.setItem('denominationBreakdown', JSON.stringify({
@@ -198,12 +202,12 @@ if (window.location.pathname === '/bill') {
         bill.items.forEach(item => {
             const row = billItemsTable.insertRow();
             row.innerHTML = `
-                <td>${item.product.product_id}</td>
-                <td>${item.product.name}</td>
+                <td>${item.product_id}</td>
+                <td>${item.name}</td>
                 <td>${item.quantity}</td>
                 <td>₹${item.unit_price}</td>
                 <td>₹${item.tax_amount}</td>
-                <td>₹${item.total_price}</td>
+                <td>₹${item.total}</td>
             `;
         });
 
