@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing System</title>
+    <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Billing System</h1>
+        
+        <div class="billing-form">
+            <div class="customer-info">
+                <input type="email" id="customerEmail" placeholder="Customer Email" required>
+            </div>
+
+            <div class="product-section">
+                <h2>Products</h2>
+                <div class="product-list" id="productList">
+                    <div class="product-item">
+                        <select class="product-select"></select>
+                        <input type="number" class="quantity-input" min="1" value="1">
+                        <button class="remove-product">Remove</button>
+                    </div>
+                </div>
+                <button id="addProduct">Add Product</button>
+            </div>
+
+            <div class="denominations">
+                <h2>Available Denominations</h2>
+                <div class="denomination-list">
+                    <div class="denomination-item">
+                        <span>500:</span>
+                        <input type="number" data-value="500" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>100:</span>
+                        <input type="number" data-value="100" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>50:</span>
+                        <input type="number" data-value="50" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>20:</span>
+                        <input type="number" data-value="20" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>10:</span>
+                        <input type="number" data-value="10" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>5:</span>
+                        <input type="number" data-value="5" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>2:</span>
+                        <input type="number" data-value="2" min="0" value="0">
+                    </div>
+                    <div class="denomination-item">
+                        <span>1:</span>
+                        <input type="number" data-value="1" min="0" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="generateBill">Generate Bill</button>
+                <button id="viewPrevious">View Previous Bills</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Details</title>
+    <link href="{{ url_for('static', path='/css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="bill-details">
+            <h1>Bill Details</h1>
+            
+            <div class="customer-details">
+                <p>Customer Email: <span id="customerEmail"></span></p>
+                <p>Date: <span id="billDate"></span></p>
+            </div>
+
+            <table class="bill-items">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Tax</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="billItems">
+                </tbody>
+            </table>
+
+            <div class="bill-summary">
+                <p>Total Amount: <span id="totalAmount"></span></p>
+                <p>Tax Amount: <span id="taxAmount"></span></p>
+                <p>Final Amount: <span id="finalAmount"></span></p>
+            </div>
+
+            <div class="payment-details">
+                <h2>Payment Breakdown</h2>
+                <div id="denominationBreakdown"></div>
+                <p>Balance Payable: <span id="balanceAmount"></span></p>
+            </div>
+
+            <div class="actions">
+                <button onclick="window.print()">Print Bill</button>
+                <button onclick="window.location.href='/'">New Bill</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>
