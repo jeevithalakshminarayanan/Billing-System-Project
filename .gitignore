@@ -1,13 +1,9 @@
-# Environment variables
-.env
-
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
 build/
 develop-eggs/
 dist/
@@ -26,11 +22,16 @@ wheels/
 
 # Virtual Environment
 venv/
+env/
 ENV/
 
-# IDE specific files
-.idea/
+# Environment Variables
+.env
+
+# VS Code
 .vscode/
-*.swp
-*.swo
-.DS_Store
+
+# Project specific
+Billing-System-Project/
+__pycache__/
+*.pyc
